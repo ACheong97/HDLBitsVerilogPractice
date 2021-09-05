@@ -1,0 +1,16 @@
+module top_module (
+	input clk,
+	input L,
+	input r_in,
+	input q_in,
+	output reg Q);
+
+    wire mux_res;
+    
+    assign mux_res = L ? r_in : q_in;
+    
+    always@(posedge clk)begin
+        Q<=mux_res;
+    end
+   
+endmodule
