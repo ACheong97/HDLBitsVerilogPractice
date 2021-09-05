@@ -1,0 +1,17 @@
+module top_module(
+    input [31:0] a,
+    input [31:0] b,
+    output [31:0] sum
+);
+	
+    wire mux_sel;
+    wire [15:0] top_sum, bot_sum, mux_sum;
+    
+    add16 adder_sel(.a(a[15:0]),.b(b[15:0]),.cin(0),.sum(mux_sum),.cout(mux_sel) );
+    add16 zero_adder(.a(a[31:16]),.b(b[31:16]),.cin(0),.sum(top_sum),.cout() );
+    add16 one_adder(.a(a[31:16]),.b(b[31:16]),.cin(1),.sum(bot_sum),.cout() );
+    
+    assign sum[31:16] = mux_sel ? bot_sum : top_sum;
+    assign sum = {sum[31:16],mux_sum};
+    
+endmodule
