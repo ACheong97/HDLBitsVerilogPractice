@@ -1,0 +1,14 @@
+module top_module(
+    input [31:0] a,
+    input [31:0] b,
+    output [31:0] sum
+);
+    wire [15:0] top_sum, bot_sum;
+    wire top2bot_carry;
+    
+    add16 top_adder(.a(a[15:0]),.b(b[15:0]),.cin(0),.sum(top_sum),.cout(top2bot_carry));
+    add16 bot_adder(.a(a[31:16]),.b(b[31:16]),.cin(top2bot_carry),.sum(bot_sum),.cout());
+     
+    assign sum = {bot_sum,top_sum};
+
+endmodule
