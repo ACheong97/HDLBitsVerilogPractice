@@ -1,0 +1,12 @@
+module top_module (
+    input [7:0] a, b, c, d,
+    output [7:0] min);//
+	
+    wire [7:0] check1,check2, check3;
+    // assign intermediate_result1 = compare? true: false;
+    assign check1 = (a>b) ? b : a;
+    assign check2 = (c>d) ? d : c;
+    assign check3 = (check1 > check2) ? check2 : check1;
+    assign min = check3;
+    
+endmodule
