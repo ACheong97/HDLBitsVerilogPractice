@@ -1,0 +1,25 @@
+module top_module(
+    input clk,
+    input in,
+    input reset,
+    output out); //
+	
+    reg [1:0] current, next;
+    parameter [1:0] A = 0, B = 1, C = 2, D = 3;
+    // State transition logic
+    always@(*)
+        case(current)
+            A: next = in ? B:A;
+            B: next = in ? B:C;
+            C: next = in ? D:A;
+            D: next = in ? B:C;
+        endcase
+    // State flip-flops with synchronous reset
+    always@(posedge clk)
+        if(reset)
+            current <= A;
+    	else
+            current <= next;
+    // Output logic
+    assign out = (current == D);
+endmodule
