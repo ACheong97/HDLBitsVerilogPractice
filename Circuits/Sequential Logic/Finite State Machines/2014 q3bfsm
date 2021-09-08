@@ -1,0 +1,28 @@
+module top_module (
+    input clk,
+    input reset,   // Synchronous reset
+    input x,
+    output z
+);
+    reg [2:0] current, next;
+    
+    always@(*)begin
+        case(current)
+            3'b000: next = x ? 3'b001 : 3'b000;
+            3'b001: next = x ? 3'b100 : 3'b001;
+            3'b010: next = x ? 3'b001 : 3'b010;
+            3'b011: next = x ? 3'b010 : 3'b001;
+            3'b100: next = x ? 3'b100 : 3'b011;
+        	default: next = 3'b000;
+         endcase    
+    end
+    
+    always@(posedge clk)begin
+        if(reset)
+            current <= 3'b000;
+       	else
+            current <= next;
+    end
+    
+    assign z = (current == 3'b100 || current == 3'b011);
+endmodule
