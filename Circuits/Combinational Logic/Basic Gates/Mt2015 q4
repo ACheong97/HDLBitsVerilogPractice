@@ -1,0 +1,23 @@
+module top_module (input x, input y, output z);
+    wire orwire1, orwire2;
+    wire andwire1, andwire2;
+    wire xorwire1, xorwire2;
+    
+    mod_a first_mod(.x(x),.y(y),.z(orwire1));
+    mod_b second_mod(.x(x),.y(y),.z(orwire2));
+    mod_a third_mod(.x(x),.y(y),.z(andwire1));               
+    mod_b fourth_mod(.x(x),.y(y),.z(andwire2));  
+                     
+    assign xorwire1 = (orwire1 | orwire2);
+    assign xorwire2 = (andwire1 & andwire2);
+    
+    assign z = xorwire1^xorwire2;
+endmodule
+
+module mod_a(input x, input y, output z);
+    assign z = (x^y) & x;
+endmodule
+
+module mod_b ( input x, input y, output z );
+    assign z = ~(x^y);
+endmodule
