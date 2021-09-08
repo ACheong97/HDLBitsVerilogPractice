@@ -17,7 +17,7 @@ module top_module (
             end
         else begin
            motor = 0;
-          ringer = 0;
+           ringer = 0;
         end
     end
        
