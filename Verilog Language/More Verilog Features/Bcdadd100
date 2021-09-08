@@ -1,0 +1,23 @@
+module top_module( 
+    input [399:0] a, b,
+    input cin,
+    output cout,
+    output [399:0] sum );
+	
+    wire [99:0] carry;
+    
+    genvar i;
+   	generate
+        for(i = 0 ; i < 100; i=i+1) begin : bcd
+            if(i==0)
+                bcd_fadd first_adder(.a(a[4*i+3:4*i]),.b(b[4*i+3:4*i]),.cin(cin),.cout(carry[i]),.sum(sum[4*i+3:4*i]));
+            else if(i == 99)
+                bcd_fadd last_adder(.a(a[4*i+3:4*i]),.b(b[4*i+3:4*i]),.cin(carry[i-1]),.cout(carry[i]),.sum(sum[4*i+3:4*i]));
+            else
+                bcd_fadd adder_chain(.a(a[4*i+3:4*i]),.b(b[4*i+3:4*i]),.cin(carry[i-1]),.cout(carry[i]),.sum(sum[4*i+3:4*i]));
+        end
+    endgenerate
+
+    assign cout = carry[99];
+    
+endmodule
