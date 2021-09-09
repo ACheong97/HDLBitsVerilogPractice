@@ -1,0 +1,13 @@
+module top_module (
+    input clk,
+    input w, R, E, L,
+    output Q
+);
+    wire mux_res, mux_wire;
+    
+    assign mux_wire = E ? w : Q;
+    assign mux_res = L ? R : mux_wire;
+        
+    always@(posedge clk)
+        Q <= mux_res;
+endmodule
