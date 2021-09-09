@@ -1,0 +1,13 @@
+module top_module( 
+    input [15:0] a, b,
+    input cin,
+    output cout,
+    output [15:0] sum );
+	
+    wire one2carry, two3carry, three4carry;
+    
+    bcd_fadd first(.a(a[3:0]),.b(b[3:0]),.cin(cin),.cout(one2carry),.sum(sum[3:0]));
+    bcd_fadd second(.a(a[7:4]),.b(b[7:4]),.cin(one2carry),.cout(two3carry),.sum(sum[7:4]));
+    bcd_fadd third(.a(a[11:8]),.b(b[11:8]),.cin(two3carry),.cout(three4carry),.sum(sum[11:8]));
+    bcd_fadd fourth(.a(a[15:12]),.b(b[15:12]),.cin(three4carry),.cout(cout),.sum(sum[15:12]));
+endmodule
