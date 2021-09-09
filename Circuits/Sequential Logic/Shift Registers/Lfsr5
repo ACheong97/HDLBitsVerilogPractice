@@ -1,0 +1,29 @@
+module top_module(
+    input clk,
+    input reset,    // Active-high synchronous reset to 5'h1
+    output [4:0] q
+); 
+	
+    wire d5, d3;
+    assign d5 = 0 ^ q[0];
+    assign d3 = q[0] ^ q[3];
+    
+    always@(posedge clk)begin
+        if(reset)begin
+            q[4] <= 1'b0;
+            q[3] <= 1'b0;
+            q[2] <= 1'b0;
+            q[1] <= 1'b0;
+            q[0] <= 1'b1;
+        end
+        else begin 
+            q[4] <= d5;
+            q[3] <= q[4];
+            q[2] <= d3;
+            q[1] <= q[2];
+            q[0] <= q[1];
+        end
+    end
+    
+    
+endmodule
