@@ -1,0 +1,19 @@
+module top_module (
+    input clk,
+    input d,
+    output q
+);
+	
+    reg qpos, qneg;
+    
+    always@(posedge clk)begin
+        qpos <= d ^ qneg;
+    end
+    
+    always@(negedge clk)begin
+        qneg <= d ^ qpos;
+    end
+    
+    assign q = qneg ^ qpos;
+        
+endmodule
