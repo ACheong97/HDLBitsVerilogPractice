@@ -17,43 +17,43 @@ module top_module(
     always@(*)begin
         case(current)
             left: if(!bump_left & ground & !dig)
-                  	next <= left;
+                  	next = left;
                   else if(!ground)
-                    next <= fall_left; 
+                    next = fall_left; 
                   else if(dig & ground)
-                    next <= dig_left;
+                    next = dig_left;
             	  else if(bump_left & ground)
-                    next <= right;
+                    next = right;
             
             right: if(!bump_right & ground & !dig)
-                  	next <= right;
+                  	next = right;
             	   else if(!ground)
-                    next <= fall_right;
+                    next = fall_right;
                    else if(dig & ground)
-                    next <= dig_right;
+                    next = dig_right;
             	   else if(bump_right & ground)
-                    next <= left;
+                    next = left;
 
             dig_left: if(ground)
-                		next<=dig_left;
+                		next = dig_left;
                       else 
-                        next<=fall_left;
+                        next = fall_left;
             
             dig_right: if(ground)
-                		next<=dig_right;
+                		next = dig_right;
                        else 
-                        next<=fall_right;
+                        next = fall_right;
             
             fall_left: if(ground)
-                	   	next <= left;
+                	   	next = left;
             	       else 
-                        next <= fall_left;       
+                        next = fall_left;       
             
             fall_right:if(ground)
-                	   	next <= right;
+                	   	next = right;
             	       else 
-                        next <= fall_right;      
-         default: next <= left;
+                        next = fall_right;      
+         default: next = left;
         endcase  
     end
     //state flip flop
