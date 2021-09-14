@@ -14,45 +14,46 @@ module top_module(
     reg [2:0] current, next;
     
     //state transition
+    //priority if more than one input asserted
+    //fall->dig->switching direction
     always@(*)begin
         case(current)
-            left: if(!bump_left & ground & !dig)
-                  	next = left;
-                  else if(!ground)
-                    next = fall_left; 
-                  else if(dig & ground)
+            left: if(!ground)
+                  	next = fall_left;
+            	  else if(dig & ground)
                     next = dig_left;
-            	  else if(bump_left & ground)
+                  else if(bump_left)
                     next = right;
-            
-            right: if(!bump_right & ground & !dig)
-                  	next = right;
-            	   else if(!ground)
-                    next = fall_right;
-                   else if(dig & ground)
-                    next = dig_right;
-            	   else if(bump_right & ground)
+            	  else 
                     next = left;
+            right: if(!ground)
+                  	next = fall_right;
+            	   else if(dig & ground)
+                    next = dig_right;
+            	   else if(bump_right)
+                    next = left;
+            	   else 
+                    next = right;
 
-            dig_left: if(ground)
-                		next = dig_left;
+            dig_left: if(!ground)
+                		next = fall_left;
                       else 
-                        next = fall_left;
+                        next = dig_left;
             
-            dig_right: if(ground)
-                		next = dig_right;
-                       else 
-                        next = fall_right;
+            dig_right: if(!ground)
+                		next = fall_right;
+                      else 
+                        next = dig_right;
             
-            fall_left: if(ground)
-                	   	next = left;
+            fall_left: if(!ground)
+                	   	next = fall_left; 
             	       else 
-                        next = fall_left;       
+                        next = left;       
             
-            fall_right:if(ground)
-                	   	next = right;
+            fall_right:if(!ground)
+                	   	next = fall_right;
             	       else 
-                        next = fall_right;      
+                        next = right;      
          default: next = left;
         endcase  
     end
