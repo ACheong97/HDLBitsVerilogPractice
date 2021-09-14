@@ -1,0 +1,72 @@
+module top_module(
+    input clk,
+    input areset,    // Freshly brainwashed Lemmings walk left.
+    input bump_left,
+    input bump_right,
+    input ground,
+    input dig,
+    output walk_left,
+    output walk_right,
+    output aaah,
+    output digging ); 
+ //parameter
+    parameter left = 0, fall_left = 1, dig_left = 2, right = 3, fall_right = 4, dig_right = 5;
+    reg [2:0] current, next;
+    
+    //state transition
+    always@(*)begin
+        case(current)
+            left: if(!bump_left & ground & !dig)
+                  	next <= left;
+                  else if(!ground)
+                    next <= fall_left; 
+                  else if(dig & ground)
+                    next <= dig_left;
+            	  else if(bump_left & ground)
+                    next <= right;
+            
+            right: if(!bump_right & ground & !dig)
+                  	next <= right;
+            	   else if(!ground)
+                    next <= fall_right;
+                   else if(dig & ground)
+                    next <= dig_right;
+            	   else if(bump_right & ground)
+                    next <= left;
+
+            dig_left: if(ground)
+                		next<=dig_left;
+                      else 
+                        next<=fall_left;
+            
+            dig_right: if(ground)
+                		next<=dig_right;
+                       else 
+                        next<=fall_right;
+            
+            fall_left: if(ground)
+                	   	next <= left;
+            	       else 
+                        next <= fall_left;       
+            
+            fall_right:if(ground)
+                	   	next <= right;
+            	       else 
+                        next <= fall_right;      
+         default: next <= left;
+        endcase  
+    end
+    //state flip flop
+    always@(posedge clk, posedge areset)begin 
+        if(areset)
+            current <= left; 
+        else
+            current <= next;
+    end
+    
+    assign walk_left = (current == left);
+    assign walk_right = (current == right);
+    assign aaah = (current == fall_left || current == fall_right);
+    assign digging = (current == dig_left || current == dig_right);
+    
+endmodule
