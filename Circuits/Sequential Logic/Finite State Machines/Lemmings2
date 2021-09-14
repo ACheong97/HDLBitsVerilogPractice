@@ -15,19 +15,20 @@ module top_module(
     //state transition
     always@(*)begin
         case(current)
-            left: if(!bump_left & ground)
-                  	next <= left;
-                  else if(bump_left & ground)
+            left: if(!ground)
+                  	next <= fall_left;
+                  else if(bump_left)
                     next <= right;
-            	  else if(!ground)
-                    next <= fall_left;
-            
-            right: if(!bump_right & ground)
-                  	next <= right;
-            	   else if(bump_right & ground)
+            	  else 
                     next <= left;
-                   else if(!ground)
-                    next <= fall_right;
+            
+            right: if(!ground)
+                  	next <= fall_right;
+           		   else if(bump_right)
+                    next <= left;
+            	  else 
+                    next <= right;
+            
         fall_left: if(!ground)
                 	   	next <= fall_left;
             	   else if(ground)
