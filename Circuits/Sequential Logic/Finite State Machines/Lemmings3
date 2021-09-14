@@ -20,7 +20,7 @@ module top_module(
         case(current)
             left: if(!ground)
                   	next = fall_left;
-            	  else if(dig & ground)
+            	  else if(dig)
                     next = dig_left;
                   else if(bump_left)
                     next = right;
@@ -28,7 +28,7 @@ module top_module(
                     next = left;
             right: if(!ground)
                   	next = fall_right;
-            	   else if(dig & ground)
+            	   else if(dig)
                     next = dig_right;
             	   else if(bump_right)
                     next = left;
