@@ -4,21 +4,8 @@ module top_module (
     output ringer,       // Make sound
     output motor         // Vibrate
 );
+
+    assign ringer = ring & (~vibrate_mode);
+    assign motor = ring & vibrate_mode;
     
-    always@(*)begin
-        if(ring)
-            if(vibrate_mode)begin
-                motor = 1;
-        		ringer = 0;
-            end
-        	else begin
-                ringer = 1;
-        		motor = 0;
-            end
-        else begin
-           motor = 0;
-           ringer = 0;
-        end
-    end
-       
 endmodule
