@@ -1,0 +1,33 @@
+module top_module (
+    input clk,
+    input aresetn,    // Asynchronous active-low reset
+    input x,
+    output z ); 
+
+    parameter S0 = 0, S1 = 1, S2 = 3;
+    reg [1:0] current, next;
+    
+    always@(*)begin
+        case(current)
+            S0: next = x ? S1 : S0;
+            S1: next = x ? S1 : S2;
+            S2: next = x ? S1 : S0;        
+        endcase
+    end
+    
+    always@(*)begin
+        case(current)
+            S0: z = 1'b0;
+            S1: z = 1'b0;
+            S2: z = x;
+        endcase    
+    end
+    
+    always@(posedge clk, negedge aresetn)begin
+        if(~aresetn)
+            current <= S0;
+        else
+            current <= next;
+    end
+ 
+endmodule
