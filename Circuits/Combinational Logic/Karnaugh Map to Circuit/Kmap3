@@ -4,6 +4,9 @@ module top_module(
     input c,
     input d,
     output out  ); 
-	
+	 
+    // SOP
     assign out = (b & ~c & ~d) | (~b & c) | a;
+    // POS
+    // assign out = (a | b | c) & (a | ~b | ~d) & (a | ~b | ~c) ;
 endmodule
